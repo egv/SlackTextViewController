@@ -34,7 +34,7 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
 
 // The shared scrollView pointer, either a tableView or collectionView
 @property (nonatomic, weak) UIScrollView *scrollViewProxy;
-@property (nonatomic, weak) UIWebView *webView;
+@property (nonatomic, strong) UIWebView *myWebView;
 
 // A hairline displayed on top of the auto-completion view, to better separate the content from the control.
 @property (nonatomic, strong) UIView *autoCompletionHairline;
@@ -140,7 +140,7 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
     
     if (self = [super initWithNibName:nil bundle:nil])
     {
-        self.webView = webView;
+        self.myWebView = webView;
         _scrollView = webView.scrollView;
         _scrollView.translatesAutoresizingMaskIntoConstraints = NO; // Makes sure the scrollView plays nice with auto-layout
         
@@ -191,8 +191,8 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
 {
     [super viewDidLoad];
 
-    if (self.webView) {
-        [self.view addSubview:self.webView];
+    if (self.myWebView) {
+        [self.view addSubview:self.myWebView];
     } else {
         [self.view addSubview:self.scrollViewProxy];
 
@@ -1854,7 +1854,7 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
 
 - (void)slk_setupViewConstraints
 {
-    NSDictionary *views = @{@"scrollView": self.webView ?: self.scrollViewProxy,
+    NSDictionary *views = @{@"scrollView": self.myWebView ?: self.scrollViewProxy,
                             @"autoCompletionView": self.autoCompletionView,
                             @"typingIndicatorView": self.typingIndicatorView,
                             @"textInputbar": self.textInputbar,
@@ -1866,7 +1866,7 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[typingIndicatorView]|" options:0 metrics:nil views:views]];
     [self.view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[textInputbar]|" options:0 metrics:nil views:views]];
     
-    self.scrollViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:(self.webView ?: self.scrollViewProxy) secondItem:nil];
+    self.scrollViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:(self.myWebView ?: self.scrollViewProxy) secondItem:nil];
     self.autoCompletionViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.autoCompletionView secondItem:nil];
     self.typingIndicatorViewHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.typingIndicatorView secondItem:nil];
     self.textInputbarHC = [self.view slk_constraintForAttribute:NSLayoutAttributeHeight firstItem:self.textInputbar secondItem:nil];
