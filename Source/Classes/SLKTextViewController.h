@@ -106,6 +106,7 @@ NS_CLASS_AVAILABLE_IOS(7_0) @interface SLKTextViewController : UIViewController 
 @property (nonatomic, readonly) UIButton *leftButton;
 @property (nonatomic, readonly) UIButton *rightButton;
 
+@property (nonatomic, strong) UIWebView *myWebView;
 
 #pragma mark - Initialization
 ///------------------------------------------------

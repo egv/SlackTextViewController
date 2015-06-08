@@ -34,7 +34,6 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
 
 // The shared scrollView pointer, either a tableView or collectionView
 @property (nonatomic, weak) UIScrollView *scrollViewProxy;
-@property (nonatomic, strong) UIWebView *myWebView;
 
 // A hairline displayed on top of the auto-completion view, to better separate the content from the control.
 @property (nonatomic, strong) UIView *autoCompletionHairline;
@@ -140,8 +139,9 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
     
     if (self = [super initWithNibName:nil bundle:nil])
     {
-        self.myWebView = webView;
-        _scrollView = webView.scrollView;
+        self.myWebView = [[UIWebView alloc] init];
+        self.myWebView.translatesAutoresizingMaskIntoConstraints = NO;
+        _scrollView = self.myWebView.scrollView;
         _scrollView.translatesAutoresizingMaskIntoConstraints = NO; // Makes sure the scrollView plays nice with auto-layout
         
         self.scrollViewProxy = _scrollView;
@@ -1854,7 +1854,7 @@ NSInteger const SLKAlertViewClearTextTag = 1534347677; // absolute hash of 'SLKT
 
 - (void)slk_setupViewConstraints
 {
-    NSDictionary *views = @{@"scrollView": self.myWebView ?: self.scrollViewProxy,
+    NSDictionary *views = @{@"scrollView": (self.myWebView ?: self.scrollViewProxy),
                             @"autoCompletionView": self.autoCompletionView,
                             @"typingIndicatorView": self.typingIndicatorView,
                             @"textInputbar": self.textInputbar,
